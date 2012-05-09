@@ -14,9 +14,7 @@ Set a custom profile image for a user using the standard WordPress media upload 
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
-
-1. Upload `metronet-profile-picture.php` to the `/wp-content/plugins/` directory
+1. Upload `metronet-profile-picture` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Place `<?php mt_profile_img() ?>` in your templates (arguments and usage are below)
 
