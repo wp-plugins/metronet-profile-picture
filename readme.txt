@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.3
 Tested up to: 3.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,8 @@ Set a custom profile image for a user using the standard WordPress media upload 
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Place `<?php mt_profile_img() ?>` in your templates (arguments and usage are below)
 
+Arguments: 
+
 `/**
 * mt_profile_img
 * 
@@ -29,6 +31,15 @@ Set a custom profile image for a user using the standard WordPress media upload 
 	attr - string || array (see get_the_post_thumbnail)
 	echo - bool (true or false) - whether to echo the image or return it
 */
+`
+
+Example Usage:
+`
+$avatar = mt_profile_img( $user_id, array( 
+			'size' => 'thumbnail'), 
+			'attr' => array( 'alt' => 'Alternative Text' ), 
+			'echo' => false )
+		);
 `
 
 == Frequently Asked Questions ==
@@ -56,10 +67,17 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 
 == Changelog ==
 
+= 1.0.1 =
+* Bug fix:  Not able to "uncheck" Override Avatar.
+* Bug fix:  Deleting profile image and not reverting to normal avatar.
+
 = 1.0.0 =
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Several important bug fixes including the ability to uncheck the avatar override, and the behavior when someone deletes their profile picture.
 
 = 1.0.0 =
 Initial release.

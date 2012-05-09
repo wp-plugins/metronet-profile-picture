@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.0
+Version: 1.0.1
 Requires at least: 3.3
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -123,12 +123,15 @@ class Metronet_Profile_Picture	{
 		$avatar_override = get_user_meta( $user_id, 'metronet_avatar_override', true );
 		if ( !$avatar_override || $avatar_override != 'on' ) return $avatar;
 		
-		$avatar = mt_profile_img( $user_id, array( 
+		//Determine if the user has a profile image
+		
+		$custom_avatar = mt_profile_img( $user_id, array( 
 			'size' => array( $size, $size ), 
 			'attr' => array( 'alt' => $alt ), 
 			'echo' => false )
 		);
-		return $avatar;	
+		if ( !$custom_avatar ) return $avatar; 
+		return $custom_avatar;	
 	} //end avatar_override
 	
 	/**
@@ -320,8 +323,9 @@ class Metronet_Profile_Picture	{
 					}
 				?>
 				</div><!-- #metronet-profile-image -->
-				<div id="metronet-upload-link"><?php echo $upload_link; ?></div><!-- #metronet-upload-link -->
+				<div id="metronet-upload-link"><?php echo $upload_link; ?> - <span class="description"><?php esc_html_e( 'Select "Use as featured image" after uploading to choose the profile image', 'metronet_profile_picture' ); ?></span></div><!-- #metronet-upload-link -->
 				<div id="metronet-override-avatar">
+					<input type="hidden" name="metronet-user-avatar" value="off" />
 					<input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php checked( "on", get_user_meta( $user_id, 'metronet_avatar_override', true ) ); ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet_profile_picture" ); ?></label>
 				</div><!-- #metronet-override-avatar -->
 			</td>
@@ -424,6 +428,12 @@ function mt_profile_img( $user_id, $args = array() ) {
 	);
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args );
+	//Return false or echo nothing if there is no post thumbnail
+	if( !has_post_thumbnail( $profile_post_id ) ) {
+		if ( $echo ) echo '';
+		else return false;
+		return;
+	}
 	$post_thumbnail = get_the_post_thumbnail( $profile_post_id, $size, $attr );
 	if ( $echo ) {
 		echo $post_thumbnail;
