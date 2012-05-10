@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.1
+Version: 1.0.2
 Requires at least: 3.3
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -113,8 +113,18 @@ class Metronet_Profile_Picture	{
 		//Get user data
 		if ( is_numeric( $id_or_email ) ) {
 			$user = get_user_by( 'id', ( int )$id_or_email );
-		} else {
+		} elseif( is_object( $id_or_email ) )  {
+			$comment = $id_or_email;
+			if ( empty( $comment->user_id ) ) {
+				$user = get_user_by( 'id', $comment->user_id );
+			} else {
+				$user = get_user_by( 'email', $comment->comment_author_email );
+			}
+			if ( !$user ) return $avatar;
+		} elseif( is_string( $id_or_email ) ) {
 			$user = get_user_by( 'email', $id_or_email );
+		} else {
+			return $avatar;
 		}
 		if ( !$user ) return $avatar;
 		$user_id = $user->ID;
@@ -130,6 +140,7 @@ class Metronet_Profile_Picture	{
 			'attr' => array( 'alt' => $alt ), 
 			'echo' => false )
 		);
+		
 		if ( !$custom_avatar ) return $avatar; 
 		return $custom_avatar;	
 	} //end avatar_override
