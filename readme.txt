@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.3
 Tested up to: 3.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 2. Media upload dialog
 
 == Changelog ==
+
+= 1.0.3 = 
+* Bug fix:  Avatar classes in the comment section
 
 = 1.0.2 =
 * Bug fix:  Error being shown in comment section
