@@ -1,17 +1,40 @@
-jQuery( document ).ready( function() {
-	window.send_to_editor = function( html ) {
-		alert( "Please set as a featured image to set a profile picture" );
-		tb_remove();
-	};
+jQuery( document ).ready( function( $ ) {
+	$('#metronet-upload-link a, #metronet-profile-image a').on( "click", function(e) {
+		//Assign the default view for the media uploader
+		var uploader = wp.media({
+			state: 'featured-image',
+			states: [ new wp.media.controller.FeaturedImage() ]
+		});
+		uploader.on( 'toolbar:create:featured-image', function( toolbar ) {
+				this.createSelectToolbar( toolbar, {
+					text: wp.media.view.l10n.setFeaturedImage
+				});
+			}, uploader );
+		
+		//For when the featured thumbnail is set
+		uploader.mt_featured_set = function( id ) {
+			var settings = wp.media.view.settings;
+
+			settings.post.featuredImageId = id;
+			$.post( ajaxurl, { action: 'metronet_add_thumbnail', json: false, post_id: settings.post.id, user_id: jQuery( "#metronet_profile_id" ).val(), thumbnail_id: settings.post.featuredImageId,_wpnonce:     settings.post.nonce }, function( response ) {
+				jQuery( "#metronet-profile-image a" ).html( response );
+			} );
+		};
+		
+		//For when the featured image is clicked
+		uploader.state('featured-image').on( 'select', function() {
+			var settings = wp.media.view.settings,
+				selection = this.get('selection').single();
+
+			if ( ! settings.post.featuredImageId )
+				return;
+			
+			uploader.mt_featured_set( selection ? selection.id : -1 );
+		} );
+		
+		
+		//Open the media uploader
+		uploader.open();
+		return false;
+	});
 } );
-function WPSetThumbnailID( id ) {
-	tb_remove();
-	var user_id = jQuery( "#metronet_profile_id" ).val();
-	var post_id = jQuery( "#metronet_post_id" ).val();
-	jQuery.post( ajaxurl, { action: "metronet_add_thumbnail", thumbnail_id: id, post_id: post_id, user_id: user_id }, function( response ) {
-		jQuery( "#metronet-profile-image" ).html( response );
-		tb_remove();
-	} );
-};
-function WPSetThumbnailHTML( html ) {
-};
