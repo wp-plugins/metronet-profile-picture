@@ -4,8 +4,8 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.3
-Requires at least: 3.3
+Version: 1.0.9
+Requires at least: 3.5
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
 */ 
@@ -75,25 +75,15 @@ class Metronet_Profile_Picture	{
 		$user_id = isset( $_POST[ 'user_id' ] ) ? absint( $_POST[ 'user_id' ] ) : 0;
 		$thumbnail_id = isset( $_POST[ 'thumbnail_id' ] ) ? absint( $_POST[ 'thumbnail_id' ] ) : 0;
 		if ( $post_id == 0 || $user_id == 0 || $thumbnail_id == 0 ) die( '' );
+		check_ajax_referer( "update-post_$post_id" );
 		
 		//Save user meta
 		update_user_meta( $user_id, 'metronet_post_id', $post_id );
-		
-		//Form upload link
-		$upload_url = admin_url( 'media-upload.php' );
-		$query_args = array(
-			'user_id' => $user_id,
-			'post_id' => $post_id,
-			'tab' => 'gallery',
-			'TB_iframe' => "1",
-			'width' => "640",
-			'height' => "425"
-		);
-		$upload_url = esc_url( add_query_arg( $query_args, $upload_url ) );
+		set_post_thumbnail( $post_id, $thumbnail_id );
+
 		if ( has_post_thumbnail( $post_id ) ) {
 			$post_thumbnail = get_the_post_thumbnail( $post_id, 'thumbnail' );
-			$return_html = sprintf( "<a href='%s' class='thickbox add_media'>%s</a>", $upload_url, $post_thumbnail );
-			die( $return_html );
+			die( $post_thumbnail );
 		}
 		die( '' );
 	} //end ajax_add_thumbnail
@@ -247,47 +237,16 @@ class Metronet_Profile_Picture	{
 			$dir .= '/' . ltrim( $path, '/' );
 		return $dir;	
 	} //get_plugin_url
-		
-	/**
-	* init()
-	* 
-	* Initializes plugin localization, post types, updaters, plugin info, and adds actions/filters
-	*
-	*/
-	function init() {		
-		
-		//* Localization Code */
-		load_plugin_textdomain( 'metronet_profile_picture', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-		
-		//Register post types
-		$post_type_args = array(
-			'public' => false,
-			'publicly_queryable' => true,
-			'show_ui' => false,
-			'show_in_menu' => false,
-			'query_var' => true,
-			'rewrite' => false,
-			'has_archive' => false,
-			'hierarchical' => false,
-			'supports' => array( 'thumbnail' )
-		);
-		register_post_type( 'mt_pp', $post_type_args );
-		
-	}//end function init
 	
 	/**
-	* insert_upload_form
+	* get_post_id
 	*
-	* Adds an upload form to the user profile page and outputs profile image if there is one
+	* Gets a post id for the user - Creates a post if a post doesn't exist
+	* 
+	@param int user_id User ID of the user
+	@return int post_id
 	*/
-	public function insert_upload_form() {
-		//Get user ID
-		$user_id = isset( $_GET[ 'user_id' ] ) ? absint( $_GET[ 'user_id' ] ) : 0;
-		if ( $user_id == 0 && IS_PROFILE_PAGE ) {
-			$current_user = wp_get_current_user();
-			$user_id = $current_user->ID;
-		}
-		
+	private function get_post_id( $user_id = 0 ) {
 		//Get/Create Profile Picture Post
 		$post_args = array(
 			'post_type' => 'mt_pp',
@@ -305,21 +264,70 @@ class Metronet_Profile_Picture	{
 			$post = end( $posts );
 			$post_id = $post->ID;
 		}
+		return $post_id;
+	} //end get_post_id
+	
+	/**
+	* get_user_id
+	*
+	* Gets a user ID for the user
+	* 
+	*@return int user_id
+	* 
+	@return int post_id
+	*/
+	private function get_user_id() {
+		//Get user ID
+		$user_id = isset( $_GET[ 'user_id' ] ) ? absint( $_GET[ 'user_id' ] ) : 0;
+		if ( $user_id == 0 && IS_PROFILE_PAGE ) {
+			$current_user = wp_get_current_user();
+			$user_id = $current_user->ID;
+		}
+		return $user_id;
+	} //end get_user_id
 		
-		//Form upload link
-		$upload_url = admin_url( 'media-upload.php' );
-		$query_args = array(
-			'user_id' => absint( $user_id ),
-			'post_id' => $post_id,
-			'tab' => 'gallery',
-			'TB_iframe' => "1",
-			'width' => "640",
-			'height' => "425"
+	/**
+	* init()
+	* 
+	* Initializes plugin localization, post types, updaters, plugin info, and adds actions/filters
+	*
+	*/
+	function init() {		
+		
+		//* Localization Code */
+		load_plugin_textdomain( 'metronet_profile_picture', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		
+		add_theme_support( 'post-thumbnails' ); //This should be part of the theme, but the plugin registers it just in case.
+		//Register post types
+		$post_type_args = array(
+			'public' => false,
+			'publicly_queryable' => true,
+			'show_ui' => false,
+			'show_in_menu' => false,
+			'query_var' => true,
+			'rewrite' => false,
+			'has_archive' => false,
+			'hierarchical' => false,
+			'supports' => array( 'thumbnail' )
 		);
-		$upload_url = esc_url( add_query_arg( $query_args, $upload_url ) );
+		register_post_type( 'mt_pp', $post_type_args );
+		
+	}//end function init
+	
+	
+	
+	/**
+	* insert_upload_form
+	*
+	* Adds an upload form to the user profile page and outputs profile image if there is one
+	*/
+	public function insert_upload_form() {
+		
+		$user_id = $this->get_user_id();
+		$post_id = $this->get_post_id( $user_id );
 		
 		//Create upload link
-		$upload_link = sprintf( "<a href='%s' class='thickbox add_media'>%s</a>", $upload_url, esc_html__( "Upload or Change Profile Picture", 'metronet_profile_picture' ) );
+		$upload_link = sprintf( "<a href='#' class='add_media'>%s</a>", esc_html__( "Upload or Change Profile Picture", 'metronet_profile_picture' ) );
 		?>
 		<tr valign="top">
 			<th scope="row"><?php esc_html_e( "Profile Image", "metronet_profile_picture" ); ?></th>
@@ -330,7 +338,7 @@ class Metronet_Profile_Picture	{
 				<?php
 					if ( has_post_thumbnail( $post_id ) ) {
 						$post_thumbnail = get_the_post_thumbnail( $post_id, 'thumbnail' );
-						printf( "<a href='%s' class='thickbox add_media'>%s</a>", $upload_url, $post_thumbnail );
+						printf( "<a href='#' class='add_media'>%s</a>", $post_thumbnail );
 					}
 				?>
 				</div><!-- #metronet-profile-image -->
@@ -350,11 +358,14 @@ class Metronet_Profile_Picture	{
 	* Output media scripts for thickbox and media uploader
 	**/
 	public function print_media_scripts() {
-		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), array( 'media-upload', 'thickbox' ) );
+		$post_id = $this->get_post_id( $this->get_user_id() );
+		wp_enqueue_media( array( 'post' => $post_id ) );
+		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), array( 'media-editor' ) );
 	} //end print_media_scripts
 	
+	//todo - remove
 	public function print_media_styles() {
-		wp_enqueue_style( 'thickbox' );
+		//wp_enqueue_style( 'thickbox' );
 	} //end print_media_styles
 	
 	/**
