@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 3.5
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ Arguments:
 Example Usage:
 `
 $avatar = mt_profile_img( $user_id, array( 
-			'size' => 'thumbnail'), 
+			'size' => 'thumbnail', 
 			'attr' => array( 'alt' => 'Alternative Text' ), 
 			'echo' => false )
 		);
@@ -48,9 +48,13 @@ $avatar = mt_profile_img( $user_id, array(
 
 1.  Visit the profile page you would like to edit.
 2.  Click "Upload or Change Profile Picture"
-3.  Upload a new image and select "Use as featured image", which will save the image (ignore the "Insert Into Post" button).
+3.  Upload a new image and select "Set profile image", which will save the image (ignore the "Insert Into Post" button).
 
 To override an avatar, select the "Override Avatar?" checkbox and save the profile page.
+
+= What role does a user have to be to set a profile image? =
+
+Author or greater.
 
 = How do I create specific thumbnail sizes? =
 
@@ -66,6 +70,11 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 2. Media upload dialog
 
 == Changelog ==
+
+= 1.0.10 = 
+* Usability enhancements.
+* Stripping out useless code.
+* Updating documentation
 
 = 1.0.9 = 
 * Adding support for the new 3.5 media uploader.
@@ -84,6 +93,14 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.10 =
+* 3.5 media uploader support
+* Usability enhancements
+* Code cleanup.
+
+= 1.0.9 = 
+* 3.5 media uploader support.
 
 = 1.0.1 =
 Several important bug fixes including the ability to uncheck the avatar override, and the behavior when someone deletes their profile picture.

@@ -5,9 +5,10 @@ jQuery( document ).ready( function( $ ) {
 			state: 'featured-image',
 			states: [ new wp.media.controller.FeaturedImage() ]
 		});
+		//Create featured image button
 		uploader.on( 'toolbar:create:featured-image', function( toolbar ) {
 				this.createSelectToolbar( toolbar, {
-					text: wp.media.view.l10n.setFeaturedImage
+					text: metronet_profile_image.set_profile_text
 				});
 			}, uploader );
 		
@@ -16,7 +17,7 @@ jQuery( document ).ready( function( $ ) {
 			var settings = wp.media.view.settings;
 
 			settings.post.featuredImageId = id;
-			$.post( ajaxurl, { action: 'metronet_add_thumbnail', json: false, post_id: settings.post.id, user_id: jQuery( "#metronet_profile_id" ).val(), thumbnail_id: settings.post.featuredImageId,_wpnonce:     settings.post.nonce }, function( response ) {
+			$.post( ajaxurl, { action: 'metronet_add_thumbnail', json: false, post_id: settings.post.id, user_id: jQuery( "#metronet_profile_id" ).val(), thumbnail_id: settings.post.featuredImageId,_wpnonce: settings.post.nonce }, function( response ) {
 				jQuery( "#metronet-profile-image a" ).html( response );
 			} );
 		};

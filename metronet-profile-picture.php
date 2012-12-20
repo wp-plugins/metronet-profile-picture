@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.9
+Version: 1.0.10
 Requires at least: 3.5
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -28,22 +28,16 @@ class Metronet_Profile_Picture	{
 	*/
 	function __construct(){
 				
-		$this->admin_options = $this->get_admin_options();
 		$this->plugin_path = plugin_basename( __FILE__ );
 		$this->plugin_url = rtrim( plugin_dir_url(__FILE__), '/' );
 		$this->plugin_dir = rtrim( plugin_dir_path(__FILE__), '/' );
 		
 		add_action( 'init', array( &$this, 'init' ) );
 		add_action( 'personal_options', array( &$this, 'insert_upload_form' ) );
-		add_action( 'admin_menu', array( &$this, 'admin_menus' ) );
 		
 		//Scripts
 		add_action( 'admin_print_scripts-user-edit.php', array( &$this, 'print_media_scripts' ) );
 		add_action( 'admin_print_scripts-profile.php', array( &$this, 'print_media_scripts' ) );
-		
-		//Styles
-		add_action( 'admin_print_styles-user-edit.php', array( &$this, 'print_media_styles' ) );
-		add_action( 'admin_print_styles-profile.php', array( &$this, 'print_media_styles' ) );
 		
 		//Ajax
 		add_action( 'wp_ajax_metronet_add_thumbnail', array( &$this, 'ajax_add_thumbnail' ) );
@@ -55,14 +49,6 @@ class Metronet_Profile_Picture	{
 		//User Avatar override
 		add_filter( 'get_avatar', array( &$this, 'avatar_override' ), 10, 5 );
 	} //end constructor
-	
-	/**
-	* admin_menus
-	* Helper method for initializes all admin menus and registering settings
-	*/
-	public function admin_menus() {
-
-	} //end admin_menus
 	
 	/**
 	* ajax_add_thumbnail()
@@ -134,78 +120,6 @@ class Metronet_Profile_Picture	{
 		if ( !$custom_avatar ) return $avatar; 
 		return $custom_avatar;	
 	} //end avatar_override
-	
-	/**
-	* get_admin_option()
-	* 
-	* Returns a localized admin option
-	*
-	* @param   string    $key    Admin Option Key to Retrieve
-	* @return   mixed                The results of the admin key.  False if not present.
-	*/
-	public function get_admin_option( $key = '' ) {			
-		$admin_options = $this->get_admin_options();
-		if ( array_key_exists( $key, $admin_options ) ) {
-			return $admin_options[ $key ];
-		}
-		return false;
-	}
-	
-	/**
-	* get_admin_options()
-	* 
-	* Initialize and return an array of all admin options
-	*
-	* @return   array					All Admin Options
-	*/
-	public function get_admin_options( ) {
-		
-		if (empty($this->admin_options)) {
-			$admin_options = $this->get_plugin_defaults();
-			
-			$options = get_option( $this->plugin_slug );
-			if (!empty($options)) {
-				foreach ($options as $key => $option) {
-					if (array_key_exists($key, $admin_options)) {
-						$admin_options[$key] = $option;
-					}
-				}
-			}
-			
-			//Save the options
-			$this->admin_options = $admin_options;
-			$this->save_admin_options();								
-		}
-		return $this->admin_options;
-	} //end get_admin_options
-	
-	/**
-	* get_all_admin_options()
-	* 
-	* Returns an array of all admin options
-	*
-	* @return   array					All Admin Options
-	*/
-	public function get_all_admin_options() {
-		return $this->admin_options;
-	}
-		
-	/**
-	* get_plugin_defaults()
-	* 
-	* Returns an array of default plugin options (to be stored in the options table)
-	*
-	* @return		array               Default plugin keys
-	*/
-	public function get_plugin_defaults() {
-		if ( isset( $this->defaults ) ) {
-			return $this->defaults;
-		} else {
-			$this->defaults = array(
-			);
-			return $this->defaults;
-		}
-	} //end get_plugin_defaults
 	
 	/**
 	* get_plugin_dir()
@@ -342,7 +256,7 @@ class Metronet_Profile_Picture	{
 					}
 				?>
 				</div><!-- #metronet-profile-image -->
-				<div id="metronet-upload-link"><?php echo $upload_link; ?> - <span class="description"><?php esc_html_e( 'Select "Use as featured image" after uploading to choose the profile image', 'metronet_profile_picture' ); ?></span></div><!-- #metronet-upload-link -->
+				<div id="metronet-upload-link"><?php echo $upload_link; ?> - <span class="description"><?php esc_html_e( 'Select "Set profile image" after uploading to choose the profile image', 'metronet_profile_picture' ); ?></span></div><!-- #metronet-upload-link -->
 				<div id="metronet-override-avatar">
 					<input type="hidden" name="metronet-user-avatar" value="off" />
 					<input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php checked( "on", get_user_meta( $user_id, 'metronet_avatar_override', true ) ); ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet_profile_picture" ); ?></label>
@@ -361,40 +275,8 @@ class Metronet_Profile_Picture	{
 		$post_id = $this->get_post_id( $this->get_user_id() );
 		wp_enqueue_media( array( 'post' => $post_id ) );
 		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), array( 'media-editor' ) );
+		wp_localize_script( 'mt-pp', 'metronet_profile_image', array( 'set_profile_text' => __( 'Set profile image', 'metronet_profile_picture' ) ) );
 	} //end print_media_scripts
-	
-	//todo - remove
-	public function print_media_styles() {
-		//wp_enqueue_style( 'thickbox' );
-	} //end print_media_styles
-	
-	/**
-	* save_admin_option()
-	* 
-	* Saves an individual option to the options array
-	* @param		string    	$key		Option key to save
-	* @param		mixed		$value	Value to save in the option	
-	*/
-	public function save_admin_option( $key = '', $value = '' ) {
-		$this->admin_options[ $key ] = $value;
-		$this->save_admin_options();
-		return $value;
-	} //end save_admin_option
-	
-	/**
-	* save_admin_options()
-	* 
-	* Saves a group of admin options to the options table
-	* @param		array    	$admin_options		Optional array of options to save (are merged with existing options)
-	*/
-	public function save_admin_options( $admin_options = false ){
-		if (!empty($this->admin_options)) {
-			if ( is_array( $admin_options ) ) {
-				$this->admin_options = wp_parse_args( $admin_options, $this->admin_options );
-			}
-			update_option( $this->plugin_slug, $this->admin_options);
-		}
-	} //end save_admin_options
 	
 	/**
 	* save_user_profile()
@@ -418,7 +300,7 @@ class Metronet_Profile_Picture	{
 //instantiate the class
 global $mt_pp;
 if (class_exists('Metronet_Profile_Picture')) {
-	if (get_bloginfo('version') >= "3.0") {
+	if (get_bloginfo('version') >= "3.5") {
 		add_action( 'plugins_loaded', 'mt_mpp_instantiate' );
 	}
 }
