@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 3.5
-Stable tag: 1.0.15
+Stable tag: 1.0.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,8 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+= 1.0.16 =
+* Fixed a bug where only the profile image interface was showing for only authors and not editors and administrators. 
 
 = 1.0.15 =
 * Built-in support for <a href="http://wordpress.org/extend/plugins/post-thumbnail-editor/">Post Thumbnail Editor</a>
@@ -117,6 +119,8 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 * Initial release.
 
 == Upgrade Notice ==
+= 1.0.16 = 
+Fixed a bug where only the profile image interface was showing for only authors and not editors and administrators. 
 
 = 1.0.15 =
 Built-in support for Post Thumbnail Editor.  Better integration with the new WP 3.5 media uploader. Various bug fixes.

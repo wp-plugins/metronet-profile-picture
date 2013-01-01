@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.15
+Version: 1.0.16
 Requires at least: 3.5
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -292,7 +292,7 @@ class Metronet_Profile_Picture	{
 	* Adds an upload form to the user profile page and outputs profile image if there is one
 	*/
 	public function insert_upload_form() {
-		if ( !current_user_can( 'author' ) ) return; //Users must be author or greater
+		if ( !current_user_can( 'upload_files' ) ) return; //Users must be author or greater
 		
 		$user_id = $this->get_user_id();
 		$post_id = $this->get_post_id( $user_id );
@@ -343,7 +343,7 @@ class Metronet_Profile_Picture	{
 			//Post Thumbnail Editor compatibility - http://wordpress.org/extend/plugins/post-thumbnail-editor/
 			$script_deps[] = 'thickbox';
 		}
-		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), $script_deps, '1.0.15', true );
+		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), $script_deps, '1.0.16', true );
 		wp_localize_script( 'mt-pp', 'metronet_profile_image', 
 			array( 
 				'set_profile_text' => __( 'Set profile image', 'metronet_profile_picture' ),
