@@ -13,7 +13,6 @@ jQuery( document ).ready( function( $ ) {
 			},
 			'json'
 		);
-		//alert( 'yo' );
 	};
 
 	$('#metronet-upload-link a, #metronet-profile-image a.add_media').on( "click", function(e) {

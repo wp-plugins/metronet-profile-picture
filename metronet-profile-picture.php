@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.16
+Version: 1.0.18
 Requires at least: 3.5
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -13,12 +13,9 @@ Contributors: ronalfy, metronet
 class Metronet_Profile_Picture	{	
 	
 	//private
-	private $admin_options = array();
-	private $errors = '';
 	private $plugin_url = '';
 	private $plugin_dir = '';
 	private $plugin_path = '';
-	private $plugin_slug = 'metronet_profile_picture';
 	
 	/**
 	* __construct()
@@ -69,7 +66,7 @@ class Metronet_Profile_Picture	{
 		check_ajax_referer( "update-post_$post_id" );
 		
 		//Save user meta
-		update_user_meta( $user_id, 'metronet_post_id', $post_id );
+		update_user_option( $user_id, 'metronet_post_id', $post_id );
 		set_post_thumbnail( $post_id, $thumbnail_id );
 
 		if ( has_post_thumbnail( $post_id ) ) {
@@ -135,7 +132,7 @@ class Metronet_Profile_Picture	{
 		$user_id = $user->ID;
 				
 		//Determine if user has an avatar override
-		$avatar_override = get_user_meta( $user_id, 'metronet_avatar_override', true );
+		$avatar_override = get_user_option( 'metronet_avatar_override', $user_id );
 		if ( !$avatar_override || $avatar_override != 'on' ) return $avatar;
 		
 		//Determine if the user has a profile image
@@ -319,7 +316,7 @@ class Metronet_Profile_Picture	{
 				<div id="metronet-upload-link"> - <?php echo $upload_link; ?> - <span class="description"><?php esc_html_e( 'Select "Set profile image" after uploading to choose the profile image', 'metronet_profile_picture' ); ?></span></div><!-- #metronet-upload-link -->
 				<div id="metronet-override-avatar">
 					<input type="hidden" name="metronet-user-avatar" value="off" /> - 
-					<input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php checked( "on", get_user_meta( $user_id, 'metronet_avatar_override', true ) ); ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet_profile_picture" ); ?></label>
+					<input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php checked( "on", get_user_option( 'metronet_avatar_override', $user_id ) ); ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet_profile_picture" ); ?></label>
 				</div><!-- #metronet-override-avatar -->
 				<div id="metronet-pte">
 					<?php echo $this->get_post_thumbnail_editor_link( $post_id ); ?>
@@ -343,7 +340,7 @@ class Metronet_Profile_Picture	{
 			//Post Thumbnail Editor compatibility - http://wordpress.org/extend/plugins/post-thumbnail-editor/
 			$script_deps[] = 'thickbox';
 		}
-		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), $script_deps, '1.0.16', true );
+		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), $script_deps, '1.0.17', true );
 		wp_localize_script( 'mt-pp', 'metronet_profile_image', 
 			array( 
 				'set_profile_text' => __( 'Set profile image', 'metronet_profile_picture' ),
@@ -371,9 +368,9 @@ class Metronet_Profile_Picture	{
 		
 		$user_avatar = $_POST[ 'metronet-user-avatar' ];
 		if ( $user_avatar == 'on' ) {
-			update_user_meta( $user_id, 'metronet_avatar_override', 'on' );
+			update_user_option( $user_id, 'metronet_avatar_override', 'on' );
 		} else {
-			delete_user_meta( $user_id, 'metronet_avatar_override' );
+			update_user_option( $user_id, 'metronet_avatar_override', 'off' );
 		}
 	} //end save_user_profile
 	
@@ -401,7 +398,7 @@ function mt_mpp_instantiate() {
 	echo - bool (true or false) - whether to echo the image or return it
 */
 function mt_profile_img( $user_id, $args = array() ) {
-	$profile_post_id = absint( get_user_meta( $user_id, 'metronet_post_id', true ) );
+	$profile_post_id = absint( get_user_option( 'metronet_post_id', $user_id ) );
 	
 	$defaults = array(
 		'size' => 'thumbnail',

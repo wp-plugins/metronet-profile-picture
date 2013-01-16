@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 3.5
-Stable tag: 1.0.16
+Stable tag: 1.0.18
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ Since the plugin uses the native uploader, you'll have to make use of <a href='h
 
 We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbnail-editor/'>Post Thumbnail Editor</a> plugin for cropping thumbnails, as you can custom-crop various image sizes without affecting other images.
 
+= Does the plugin work with Multisite? =
+
+Yes, but you'll have to set a new profile image per site.  This is currently a limitation of the way the plugin stores its data.  Ideas to overcome this are welcome.
+
 == Screenshots ==
 
 1. Profile page options.
@@ -89,6 +93,9 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+= 1.0.18 = 
+* Added basic multisite support
+
 = 1.0.16 =
 * Fixed a bug where only the profile image interface was showing for only authors and not editors and administrators. 
 
@@ -119,6 +126,9 @@ We highly recommend the <a href='http://wordpress.org/extend/plugins/post-thumbn
 * Initial release.
 
 == Upgrade Notice ==
+= 1.0.18 =
+Added basic multisite support
+
 = 1.0.16 = 
 Fixed a bug where only the profile image interface was showing for only authors and not editors and administrators. 
 
