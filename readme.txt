@@ -2,8 +2,8 @@
 Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
-Tested up to: 3.5
-Stable tag: 1.0.18
+Tested up to: 3.6
+Stable tag: 1.0.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+= 1.0.19 = 
+* Added support for 2.0.x version of <a href='http://wordpress.org/extend/plugins/post-thumbnail-editor/'>Post Thumbnail Editor</a>
+
 = 1.0.18 = 
 * Added basic multisite support
 
@@ -126,6 +129,10 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.19 =
+Added support for version 2.0.x of Post Thumbnail Editor
+
 = 1.0.18 =
 Added basic multisite support
 

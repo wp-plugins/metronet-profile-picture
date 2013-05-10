@@ -70,8 +70,4 @@ jQuery( document ).ready( function( $ ) {
 		return false;
 	});
 	
-	//For when Thickbox is closed - Trac - http://core.trac.wordpress.org/ticket/19189#comment:24
-	$(document).on('tb_unload', '#TB_window', function(e){
-		mt_ajax_thumbnail_refresh();
-	});	
 } );

@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.18
+Version: 1.0.19
 Requires at least: 3.5
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -220,16 +220,11 @@ class Metronet_Profile_Picture	{
 		if ( has_post_thumbnail( $post_id ) && defined( 'PTE_VERSION' ) ) {
 			//Post Thumbnail Editor compatibility - http://wordpress.org/extend/plugins/post-thumbnail-editor/
 			$post_thumbnail_id = get_post_meta( $post_id, '_thumbnail_id', true );
-			$pte_options = pte_get_options();
 			$pte_url = add_query_arg( array(
-				'action' => 'pte_ajax',
-				'pte-action' => 'launch',
-				'id' => $post_thumbnail_id,
-				'TB_iframe' => 'true',
-				'height' => $pte_options[ 'pte_tb_height' ],
-				'width' => $pte_options[ 'pte_tb_width' ]
-			), admin_url('admin-ajax.php') );
-			printf( ' - <a class="thickbox" href="%s">%s</a>', $pte_url, __( 'Crop Thumbnail', 'metronet_profile_picture' ) );							
+				'page' => 'pte-edit',
+				'pte-id' => $post_thumbnail_id
+			), admin_url('upload.php') );
+			printf( ' - <a href="%s">%s</a>', $pte_url, __( 'Crop Thumbnail', 'metronet_profile_picture' ) );							
 		} //end post thumbnail editor
 		return ob_get_clean();
 	} //end get_post_thumbnail_editor_link
@@ -336,10 +331,6 @@ class Metronet_Profile_Picture	{
 		wp_enqueue_media( array( 'post' => $post_id ) );
 		
 		$script_deps = array( 'media-editor' );
-		if ( defined( 'PTE_VERSION' ) ) {
-			//Post Thumbnail Editor compatibility - http://wordpress.org/extend/plugins/post-thumbnail-editor/
-			$script_deps[] = 'thickbox';
-		}
 		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), $script_deps, '1.0.17', true );
 		wp_localize_script( 'mt-pp', 'metronet_profile_image', 
 			array( 
@@ -350,10 +341,6 @@ class Metronet_Profile_Picture	{
 	} //end print_media_scripts
 	
 	public function print_media_styles() {
-		if ( defined( 'PTE_VERSION' ) ) {
-			//Post Thumbnail Editor compatibility - http://wordpress.org/extend/plugins/post-thumbnail-editor/
-			wp_enqueue_style( 'thickbox' );
-		}
 	} //end print_media_styles
 	
 	/**
