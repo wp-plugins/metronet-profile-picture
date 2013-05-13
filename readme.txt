@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.0.19
+Stable tag: 1.0.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,10 @@ The `mt_profile_img` function internally uses the <a href="http://codex.wordpres
 
 Optionally, if you choose the "Override Avatar" function, you can use <a href="http://codex.wordpress.org/Function_Reference/get_avatar">get_avatar</a> to retrieve the profile image.
 
+If you want the "Override Avatar" checkbox to be checked by default, drop this into your theme's `functions.php` file:
+
+`add_filter( 'mpp_avatar_override', '__return_true' );`
+
 == Frequently Asked Questions ==
 
 = How do you set a user profile image? =
@@ -93,6 +97,10 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+= 1.0.20 = 
+* Released 13 May 2012.
+* Added a filter for turning on "Override Avatar" by default.
+
 = 1.0.19 = 
 * Added support for 2.0.x version of <a href='http://wordpress.org/extend/plugins/post-thumbnail-editor/'>Post Thumbnail Editor</a>
 
@@ -129,6 +137,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.20 =
+Added a filter for turning on "Override Avatar" by default.
 
 = 1.0.19 =
 Added support for version 2.0.x of Post Thumbnail Editor
