@@ -2,8 +2,8 @@
 Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
-Tested up to: 3.6
-Stable tag: 1.0.20
+Tested up to: 3.6.1
+Stable tag: 1.0.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,8 +97,12 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+= 1.0.21 =
+* Released 09 September 2013
+* Fixed avatar override on options discussion page.
+
 = 1.0.20 = 
-* Released 13 May 2012.
+* Released 13 May 2013.
 * Added a filter for turning on "Override Avatar" by default.
 
 = 1.0.19 = 
@@ -137,6 +141,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.21 =
+Fixed avatar override on options discussion page.
 
 = 1.0.20 =
 Added a filter for turning on "Override Avatar" by default.
