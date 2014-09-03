@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.21
+Version: 1.0.22
 Requires at least: 3.5
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -67,6 +67,7 @@ class Metronet_Profile_Picture	{
 		
 		//Save user meta
 		update_user_option( $user_id, 'metronet_post_id', $post_id );
+		update_user_option( $user_id, 'metronet_image_id', $thumbnail_id ); //Added via this thread (Props Solinx) - https://wordpress.org/support/topic/storing-image-id-directly-as-user-meta-data
 		set_post_thumbnail( $post_id, $thumbnail_id );
 
 		if ( has_post_thumbnail( $post_id ) ) {

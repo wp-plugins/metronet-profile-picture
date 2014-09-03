@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.0.21
+Stable tag: 1.0.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,11 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+
+= 1.0.22 =
+* Released 02 September 2014
+* Added minor update to additional user meta for easier querying (props Solinx)
+
 = 1.0.21 =
 * Released 09 September 2013
 * Fixed avatar override on options discussion page.
@@ -141,6 +146,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.22 =
+Added minor update to additional user meta for easier querying (props Solinx)
 
 = 1.0.21 =
 Fixed avatar override on options discussion page.
