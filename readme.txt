@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.0.22
+Stable tag: 1.0.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,9 +60,12 @@ The `mt_profile_img` function internally uses the <a href="http://codex.wordpres
 
 Optionally, if you choose the "Override Avatar" function, you can use <a href="http://codex.wordpress.org/Function_Reference/get_avatar">get_avatar</a> to retrieve the profile image.
 
-If you want the "Override Avatar" checkbox to be checked by default, drop this into your theme's `functions.php` file:
+If you want the "Override Avatar" checkbox to be checked by default, drop this into your theme's `functions.php` file or <a href="http://www.wpbeginner.com/beginners-guide/what-why-and-how-tos-of-creating-a-site-specific-wordpress-plugin/">Site-specific plugin</a>:
 
 `add_filter( 'mpp_avatar_override', '__return_true' );`
+
+If you want to hide the "Override Avatar" checkbox, use this filter (the override functionality will be enabled by default):
+`add_filter( 'mpp_hide_avatar_override', '__return_true' );`
 
 == Frequently Asked Questions ==
 
@@ -97,6 +100,10 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+
+= 1.0.23 =
+* Released 20 October 2014
+* Added a new filter to allow the "Override Avatar" interface to be hidden (and turned on my default).
 
 = 1.0.22 =
 * Released 02 September 2014
@@ -146,6 +153,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.23 =
+Added a new filter to allow the "Override Avatar" interface to be hidden (and turned on my default).
 
 = 1.0.22 =
 Added minor update to additional user meta for easier querying (props Solinx)

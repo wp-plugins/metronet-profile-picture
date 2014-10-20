@@ -4,7 +4,7 @@ Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
 Author: Metronet
-Version: 1.0.22
+Version: 1.0.23
 Requires at least: 3.5
 Author URI: http://www.metronet.no
 Contributors: ronalfy, metronet
@@ -312,9 +312,9 @@ class Metronet_Profile_Picture	{
 				?>
 				</a>
 				</div><!-- #metronet-profile-image -->
-				<div id="metronet-upload-link"> - <?php echo $upload_link; ?> - <span class="description"><?php esc_html_e( 'Select "Set profile image" after uploading to choose the profile image', 'metronet_profile_picture' ); ?></span></div><!-- #metronet-upload-link -->
+				<div id="metronet-upload-link"><?php echo $upload_link; ?> - <span class="description"><?php esc_html_e( 'Select "Set profile image" after uploading to choose the profile image', 'metronet_profile_picture' ); ?></span></div><!-- #metronet-upload-link -->
 				<div id="metronet-override-avatar">
-					<input type="hidden" name="metronet-user-avatar" value="off" /> - 
+					<input type="hidden" name="metronet-user-avatar" value="off" /> 
 					<?php
 					//Get the user avatar override option - If not set, see if there's a filter override.
 					$user_avatar_override = get_user_option( 'metronet_avatar_override', $user_id );
@@ -324,8 +324,17 @@ class Metronet_Profile_Picture	{
 					} else {
 						$checked = checked( true, apply_filters( 'mpp_avatar_override', false ), false );
 					}
+					
+					//Filter for hiding the override interface.  If this option is set to true, the mpp_avatar_override filter is ignored and override is enabled by default
+					$hide_override = apply_filters( 'mpp_hide_avatar_override', false );
+					if ( $hide_override ):
 					?>
-					<input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php echo $checked; ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet_profile_picture" ); ?></label>
+					<input type="hidden" name="metronet-user-avatar" id="metronet-user-avatar" value="on"  />
+					<?php
+					else:
+					?>
+					<br /><input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php echo $checked; ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet_profile_picture" ); ?></label>
+					<?php endif; ?>
 				</div><!-- #metronet-override-avatar -->
 				<div id="metronet-pte">
 					<?php echo $this->get_post_thumbnail_editor_link( $post_id ); ?>
