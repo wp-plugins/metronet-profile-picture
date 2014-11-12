@@ -3,7 +3,7 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.0.23
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,9 @@ A template tag is supplied for outputting to a theme and the option to override 
 This plugin is fully compatible with <a href="http://wordpress.org/extend/plugins/post-thumbnail-editor/">Post Thumbnail Editor</a> for cropping any uploaded images.
 
 If you like this plugin, please leave a rating/review and mark the plugin as working.
+
+<h3>Translations</h3>
+If you would like to contribute a translation, please leave a support request with a link to your translation  or <a href="http://www.ronalfy.com/contact/">get in touch</a>.
 
 == Installation ==
 
@@ -101,6 +104,12 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 
 == Changelog ==
 
+= 1.1.0 = 
+* Released 11 November 2014
+* Added the ability to remove profile images (aside from deleting the image).
+* Added better internationalization capabilities.
+* Added compatibility with <a href="https://wordpress.org/plugins/theme-my-login/">Theme My Login</a>.
+
 = 1.0.23 =
 * Released 20 October 2014
 * Added a new filter to allow the "Override Avatar" interface to be hidden (and turned on my default).
@@ -153,6 +162,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Added the ability to remove profile images (aside from deleting the image).  Added better internationalization capabilities.  Added compatibility with Theme My Login.
 
 = 1.0.23 =
 Added a new filter to allow the "Override Avatar" interface to be hidden (and turned on my default).

@@ -3,19 +3,41 @@ jQuery( document ).ready( function( $ ) {
 	//Refresh the profile image thumbnail
 	function mt_ajax_thumbnail_refresh() {
 		var post_id = jQuery( "#metronet_post_id" ).val();
-		$.post( ajaxurl, { 
+		$.post( metronet_profile_image.ajax_url, { 
 				action: 'metronet_get_thumbnail', 
 				post_id: post_id, 
 			}, 
 			function( response ) {
-				jQuery( "#metronet-profile-image a" ).html( response.thumb_html );
+				jQuery( "#metronet-profile-image" ).html( response.thumb_html );
 				jQuery( "#metronet-pte" ).html( response.crop_html );
+				if ( response.has_thumb == true ) {
+					jQuery( "#metronet-remove" ).show();	
+				} else {
+					jQuery( "#metronet-remove" ).hide();		
+				}
 			},
 			'json'
 		);
 	};
-
-	$('#metronet-upload-link a, #metronet-profile-image a.add_media').on( "click", function(e) {
+	//Remove the profile image
+	function mt_remove_profile_image() {
+		var settings = wp.media.view.settings;
+			$.post( metronet_profile_image.ajax_url, { 
+					action: 'metronet_remove_thumbnail', 
+					post_id: settings.post.id, 
+					user_id: jQuery( "#metronet_profile_id" ).val(), 
+					_wpnonce: settings.post.nonce 
+				}, 
+				function( response ) {
+					jQuery( "#metronet-profile-image" ).html( response.thumb_html );
+					jQuery( "#metronet-pte" ).html( response.crop_html );
+					jQuery( "#metronet-remove" ).hide();
+				},
+				'json'
+			);	
+	}
+	
+	$('#mpp').on( "click", '.mpp_add_media', function(e) {
 		//Assign the default view for the media uploader
 		var uploader = wp.media({
 			state: 'featured-image',
@@ -23,17 +45,40 @@ jQuery( document ).ready( function( $ ) {
 		});
 		uploader.state('featured-image').set( 'title', metronet_profile_image.set_profile_text );
 		
-		//Create featured image button
 		uploader.on( 'toolbar:create:featured-image', function( toolbar ) {
-				this.createSelectToolbar( toolbar, {
-					text: metronet_profile_image.set_profile_text
-				});
-			}, uploader );
+			var options = {
+			};
+			options.items = {};
+			options.items.select = {
+				text: metronet_profile_image.set_profile_text,
+				style:    'primary',
+				click: wp.media.view.Toolbar.Select.prototype.clickSelect,
+				requires: { selection: true },
+				event: 'select',
+				reset: true,
+				close: true,
+				state: false
+			};
+			if ( $( '#metronet-profile-image img' ).length > 0 ) {
+				options.items.remove = {
+					text: 'Remove Profile Image',
+					style:    'secondary',
+					requires: { selection: false },
+					click: wp.media.view.Toolbar.Select.prototype.clickSelect,
+					event: 'remove',
+					reset: true,
+					close: true,
+					state: false
+				};
+			}
+			this.createSelectToolbar( toolbar, options );
+		}, uploader );
+			
 		
 		//For when the featured thumbnail is set
 		uploader.mt_featured_set = function( id ) {
 			var settings = wp.media.view.settings;
-			$.post( ajaxurl, { 
+			$.post( metronet_profile_image.ajax_url, { 
 					action: 'metronet_add_thumbnail', 
 					post_id: settings.post.id, 
 					user_id: jQuery( "#metronet_profile_id" ).val(), 
@@ -41,14 +86,17 @@ jQuery( document ).ready( function( $ ) {
 					_wpnonce: settings.post.nonce 
 				}, 
 				function( response ) {
-					jQuery( "#metronet-profile-image a" ).html( response.thumb_html );
+					jQuery( "#metronet-profile-image" ).html( response.thumb_html );
 					jQuery( "#metronet-pte" ).html( response.crop_html );
+					if ( response.has_thumb == true ) {
+						jQuery( "#metronet-remove" ).show();	
+					}
 				},
 				'json'
 			);
 		};
 		
-		//For when the featured image is clicked
+		//For when the Add Profile Image is clicked
 		uploader.state('featured-image').on( 'select', function() {
 			var settings = wp.media.view.settings,
 				selection = this.get('selection').single();
@@ -59,6 +107,12 @@ jQuery( document ).ready( function( $ ) {
 			settings.post.featuredImageId = selection.id;
 			uploader.mt_featured_set( selection ? selection.id : -1 );
 		} );
+		
+		//When the remove buttons is clicked
+		uploader.state( 'featured-image' ).on( 'remove', function() {
+			mt_remove_profile_image();
+		} );
+		
 				
 		//For when the window is closed (update the thumbnail)
 		uploader.on('escape', function(){
@@ -69,5 +123,9 @@ jQuery( document ).ready( function( $ ) {
 		uploader.open();
 		return false;
 	});
+	$( "#metronet-remove" ).on( 'click', 'a', function( e ) {
+		e.preventDefault();
+		mt_remove_profile_image();
+	} );
 	
 } );
