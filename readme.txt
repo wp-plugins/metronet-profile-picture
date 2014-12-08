@@ -2,7 +2,7 @@
 Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -97,7 +97,6 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 
 1. Profile page options.
 2. Media upload dialog.
-3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
 
