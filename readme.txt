@@ -97,7 +97,6 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 
 1. Profile page options.
 2. Media upload dialog.
-3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
 
