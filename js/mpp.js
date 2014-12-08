@@ -9,12 +9,6 @@ jQuery( document ).ready( function( $ ) {
 			}, 
 			function( response ) {
 				jQuery( "#metronet-profile-image" ).html( response.thumb_html );
-				jQuery( "#metronet-pte" ).html( response.crop_html );
-				if ( response.has_thumb == true ) {
-					jQuery( "#metronet-remove" ).show();	
-				} else {
-					jQuery( "#metronet-remove" ).hide();		
-				}
 			},
 			'json'
 		);
@@ -30,8 +24,6 @@ jQuery( document ).ready( function( $ ) {
 				}, 
 				function( response ) {
 					jQuery( "#metronet-profile-image" ).html( response.thumb_html );
-					jQuery( "#metronet-pte" ).html( response.crop_html );
-					jQuery( "#metronet-remove" ).hide();
 				},
 				'json'
 			);	
@@ -61,7 +53,7 @@ jQuery( document ).ready( function( $ ) {
 			};
 			if ( $( '#metronet-profile-image img' ).length > 0 ) {
 				options.items.remove = {
-					text: 'Remove Profile Image',
+					text: metronet_profile_image.remove_profile_text,
 					style:    'secondary',
 					requires: { selection: false },
 					click: wp.media.view.Toolbar.Select.prototype.clickSelect,
@@ -87,10 +79,6 @@ jQuery( document ).ready( function( $ ) {
 				}, 
 				function( response ) {
 					jQuery( "#metronet-profile-image" ).html( response.thumb_html );
-					jQuery( "#metronet-pte" ).html( response.crop_html );
-					if ( response.has_thumb == true ) {
-						jQuery( "#metronet-remove" ).show();	
-					}
 				},
 				'json'
 			);
@@ -123,7 +111,7 @@ jQuery( document ).ready( function( $ ) {
 		uploader.open();
 		return false;
 	});
-	$( "#metronet-remove" ).on( 'click', 'a', function( e ) {
+	$( "#mpp" ).on( 'click', 'a#metronet-remove', function( e ) {
 		e.preventDefault();
 		mt_remove_profile_image();
 	} );

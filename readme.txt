@@ -3,18 +3,16 @@ Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Set a custom profile image for a user using the standard WordPress media upload tool.
 == Description ==
 
-Set a custom profile image for a user using the standard WordPress media upload tool.  
+Set or remove a custom profile image for a user using the standard WordPress media upload tool.  
 
 A template tag is supplied for outputting to a theme and the option to override a user's default avatar is also available.
-
-This plugin is fully compatible with <a href="http://wordpress.org/extend/plugins/post-thumbnail-editor/">Post Thumbnail Editor</a> for cropping any uploaded images.
 
 If you like this plugin, please leave a rating/review and mark the plugin as working.
 
@@ -75,8 +73,7 @@ If you want to hide the "Override Avatar" checkbox, use this filter (the overrid
 = How do you set a user profile image? =
 
 1.  Visit the profile page you would like to edit.
-2.  Click "Upload or Change Profile Picture"
-3.  Upload a new image and select "Set profile image", which will save the image.
+2.  Click on the profile picture to add, edit, or remove the profile picture.
 
 To override an avatar, select the "Override Avatar?" checkbox and save the profile page.
 
@@ -103,6 +100,11 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 3. Post Thumbnail Editor compatibility.
 
 == Changelog ==
+
+= 1.2.0 =
+* Released 07 December 2014
+* Reducing clutter in the interface.  Removed text option to upload.  Added default image if no profile image is available.  Added option to remove the profile image.
+* Fixed internationalization bug in the JavaScript.
 
 = 1.1.0 = 
 * Released 11 November 2014
@@ -162,6 +164,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Reducing clutter in the interface.  Removed text option to upload.  Added default image if no profile image is available.  Added option to remove the profile image.
 
 = 1.1.0 =
 Added the ability to remove profile images (aside from deleting the image).  Added better internationalization capabilities.  Added compatibility with Theme My Login.
