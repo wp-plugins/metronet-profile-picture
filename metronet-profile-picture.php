@@ -3,10 +3,10 @@
 Plugin Name: Metronet Profile Picture
 Plugin URI: http://wordpress.org/extend/plugins/metronet-profile-picture/
 Description: Use the native WP uploader on your user profile page.
-Author: Metronet
-Version: 1.2.0
+Author: ronalfy
+Version: 1.2.1
 Requires at least: 3.5
-Author URI: http://www.metronet.no
+Author URI: http://www.ronalfy.com
 Contributors: ronalfy, metronet
 Text Domain: metronet-profile-picture
 Domain Path: /languages
@@ -82,7 +82,7 @@ class Metronet_Profile_Picture	{
 			$post_thumbnail = get_the_post_thumbnail( $post_id, 'thumbnail' );
 			$crop_html = $this->get_post_thumbnail_editor_link( $post_id );
 			$thumb_html = sprintf( '<a href="#" class="mpp_add_media">%s</a>', $post_thumbnail );
-			$thumb_html .= sprintf( '<a id="metronet-remove" class="dashicons dashicons-trash" href="#" title="%s">%s</a>', esc_attr__( 'Remove profile image', 'metronet_profile_picture' ), esc_html__( "Remove profile image", "metronet_profile_picture" ) );
+			$thumb_html .= sprintf( '<a id="metronet-remove" class="dashicons dashicons-trash" href="#" title="%s">%s</a>', esc_attr__( 'Remove profile image', 'metronet-profile-picture' ), esc_html__( "Remove profile image", "metronet-profile-picture" ) );
 			die( json_encode( array(
 				'thumb_html' => $thumb_html,
 				'crop_html' => $crop_html,
@@ -105,7 +105,7 @@ class Metronet_Profile_Picture	{
 			$post_thumbnail = get_the_post_thumbnail( $post_id, 'thumbnail' );
 			$crop_html = $this->get_post_thumbnail_editor_link( $post_id );
 			$thumb_html = sprintf( '<a href="#" class="mpp_add_media">%s</a>', $post_thumbnail );
-			$thumb_html .= sprintf( '<a id="metronet-remove" class="dashicons dashicons-trash" href="#" title="%s">%s</a>', esc_attr__( 'Remove profile image', 'metronet_profile_picture' ), esc_html__( "Remove profile image", "metronet_profile_picture" ) );
+			$thumb_html .= sprintf( '<a id="metronet-remove" class="dashicons dashicons-trash" href="#" title="%s">%s</a>', esc_attr__( 'Remove profile image', 'metronet-profile-picture' ), esc_html__( "Remove profile image", "metronet-profile-picture" ) );
 			die( json_encode( array(
 				'thumb_html' => $thumb_html,
 				'crop_html' => $crop_html,
@@ -113,7 +113,7 @@ class Metronet_Profile_Picture	{
 			) ) );
 		} else {
 			$thumb_html = '<a href="#" class="mpp_add_media">';
-			$thumb_html.= sprintf( '<img src="%s" width="150" height="150" title="%s" />', $this->get_plugin_url( 'img/mystery.png' ), esc_attr__( "Upload or Change Profile Picture", 'metronet_profile_picture' ) );
+			$thumb_html.= sprintf( '<img src="%s" width="150" height="150" title="%s" />', $this->get_plugin_url( 'img/mystery.png' ), esc_attr__( "Upload or Change Profile Picture", 'metronet-profile-picture' ) );
 			$thumb_html .= '</a>';	
 		}
 		die( json_encode( array( 'thumb_html' => $thumb_html, 'crop_html' => '', 'has_thumb' => false ) ) );
@@ -132,7 +132,7 @@ class Metronet_Profile_Picture	{
 		check_ajax_referer( "update-post_$post_id" );
 		
 		$thumb_html = '<a href="#" class="mpp_add_media">';
-		$thumb_html.= sprintf( '<img src="%s" width="150" height="150" title="%s" />', $this->get_plugin_url( 'img/mystery.png' ), esc_attr__( "Upload or Change Profile Picture", 'metronet_profile_picture' ) );
+		$thumb_html.= sprintf( '<img src="%s" width="150" height="150" title="%s" />', $this->get_plugin_url( 'img/mystery.png' ), esc_attr__( "Upload or Change Profile Picture", 'metronet-profile-picture' ) );
 		$thumb_html .= '</a>';
 
 		//Save user meta and update thumbnail
@@ -268,7 +268,7 @@ class Metronet_Profile_Picture	{
 				'page' => 'pte-edit',
 				'pte-id' => $post_thumbnail_id
 			), admin_url('upload.php') );
-			printf( ' - <a href="%s">%s</a>', $pte_url, __( 'Crop Thumbnail', 'metronet_profile_picture' ) );							
+			printf( ' - <a href="%s">%s</a>', $pte_url, __( 'Crop Thumbnail', 'metronet-profile-picture' ) );							
 		} //end post thumbnail editor
 		return ob_get_clean();
 	} //end get_post_thumbnail_editor_link
@@ -332,7 +332,7 @@ class Metronet_Profile_Picture	{
 		
 		?>
 		<tr valign="top">
-			<th scope="row"><?php esc_html_e( "Profile Image", "metronet_profile_picture" ); ?></th>
+			<th scope="row"><?php esc_html_e( "Profile Image", "metronet-profile-picture" ); ?></th>
 			<td id="mpp">
 				<input type="hidden" name="metronet_profile_id" id="metronet_profile_id" value="<?php echo esc_attr( $user_id ); ?>" />
 				<input type="hidden" name="metronet_post_id" id="metronet_post_id" value="<?php echo esc_attr( $post_id ); ?>" />
@@ -347,7 +347,7 @@ class Metronet_Profile_Picture	{
 						echo '</a>';
 					} else {
 						echo '<a href="#" class="mpp_add_media">';
-						$post_thumbnail = sprintf( '<img src="%s" width="150" height="150" title="%s" />', $this->get_plugin_url( 'img/mystery.png' ), esc_attr__( "Upload or Change Profile Picture", 'metronet_profile_picture' ) );
+						$post_thumbnail = sprintf( '<img src="%s" width="150" height="150" title="%s" />', $this->get_plugin_url( 'img/mystery.png' ), esc_attr__( "Upload or Change Profile Picture", 'metronet-profile-picture' ) );
 						echo $post_thumbnail;
 						echo '</a>';
 					}
@@ -356,7 +356,7 @@ class Metronet_Profile_Picture	{
 						$remove_classes[] = 'mpp-no-profile-image';	
 					}
 				?>
-					<a id="metronet-remove" class="<?php echo implode( ' ', $remove_classes ); ?>" href="#" title="<?php esc_attr_e( 'Remove profile image', 'metronet_profile_picture' ); ?>"><?php esc_html_e( "Remove profile image", "metronet_profile_picture" );?></a>
+					<a id="metronet-remove" class="<?php echo implode( ' ', $remove_classes ); ?>" href="#" title="<?php esc_attr_e( 'Remove profile image', 'metronet-profile-picture' ); ?>"><?php esc_html_e( "Remove profile image", "metronet-profile-picture" );?></a>
 				</div><!-- #metronet-profile-image -->
 				<div id="metronet-override-avatar">
 					<input type="hidden" name="metronet-user-avatar" value="off" /> 
@@ -378,7 +378,7 @@ class Metronet_Profile_Picture	{
 					<?php
 					else:
 					?>
-					<br /><input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php echo $checked; ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet_profile_picture" ); ?></label>
+					<br /><input type="checkbox" name="metronet-user-avatar" id="metronet-user-avatar" value="on" <?php echo $checked; ?> /><label for="metronet-user-avatar"> <?php esc_html_e( "Override Avatar?", "metronet-profile-picture" ); ?></label>
 					<?php endif; ?>
 				</div><!-- #metronet-override-avatar -->
 			</td>
@@ -403,9 +403,9 @@ class Metronet_Profile_Picture	{
 		wp_enqueue_script( 'mt-pp', $this->get_plugin_url( '/js/mpp.js' ), $script_deps, '20141111', true );
 		wp_localize_script( 'mt-pp', 'metronet_profile_image', 
 			array( 
-				'set_profile_text' => __( 'Set profile image', 'metronet_profile_picture' ),
-				'remove_profile_text' => __( 'Remove profile image', 'metronet_profile_picture' ),
-				'crop' => __( 'Crop Thumbnail', 'metronet_profile_picture' ),
+				'set_profile_text' => __( 'Set profile image', 'metronet-profile-picture' ),
+				'remove_profile_text' => __( 'Remove profile image', 'metronet-profile-picture' ),
+				'crop' => __( 'Crop Thumbnail', 'metronet-profile-picture' ),
 				'ajax_url' => esc_url( admin_url( 'admin-ajax.php' ) )
 			) 
 		);

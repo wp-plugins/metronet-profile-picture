@@ -2,8 +2,8 @@
 Contributors: metronet, ronalfy
 Tags: users, user, user profile
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 1.2.0
+Tested up to: 4.1.1
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,11 @@ A template tag is supplied for outputting to a theme and the option to override 
 If you like this plugin, please leave a rating/review and mark the plugin as working.
 
 <h3>Translations</h3>
+
+<ul>
+<li>Spanish - Thanks Eva F.</li>
+</ul>
+
 If you would like to contribute a translation, please leave a support request with a link to your translation  or <a href="http://www.ronalfy.com/contact/">get in touch</a>.
 
 == Installation ==
@@ -100,6 +105,11 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 
 == Changelog ==
 
+= 1.2.1 =
+* Released 03 March 2014
+* Fixed internationalization errors.
+* Added Spanish translation.
+
 = 1.2.0 =
 * Released 07 December 2014
 * Reducing clutter in the interface.  Removed text option to upload.  Added default image if no profile image is available.  Added option to remove the profile image.
@@ -164,44 +174,9 @@ Yes, but you'll have to set a new profile image per site.  This is currently a l
 
 == Upgrade Notice ==
 
+= 1.2.1 =
+Fixed internationalization errors. Added Spanish translation.
+
 = 1.2.0 =
 Reducing clutter in the interface.  Removed text option to upload.  Added default image if no profile image is available.  Added option to remove the profile image.
 
-= 1.1.0 =
-Added the ability to remove profile images (aside from deleting the image).  Added better internationalization capabilities.  Added compatibility with Theme My Login.
-
-= 1.0.23 =
-Added a new filter to allow the "Override Avatar" interface to be hidden (and turned on my default).
-
-= 1.0.22 =
-Added minor update to additional user meta for easier querying (props Solinx)
-
-= 1.0.21 =
-Fixed avatar override on options discussion page.
-
-= 1.0.20 =
-Added a filter for turning on "Override Avatar" by default.
-
-= 1.0.19 =
-Added support for version 2.0.x of Post Thumbnail Editor
-
-= 1.0.18 =
-Added basic multisite support
-
-= 1.0.16 = 
-Fixed a bug where only the profile image interface was showing for only authors and not editors and administrators. 
-
-= 1.0.15 =
-Built-in support for Post Thumbnail Editor.  Better integration with the new WP 3.5 media uploader. Various bug fixes.
-
-= 1.0.10 =
-3.5 media uploader support.  Usability enhancements. Code cleanup.
-
-= 1.0.9 = 
-3.5 media uploader support.
-
-= 1.0.1 =
-Several important bug fixes including the ability to uncheck the avatar override, and the behavior when someone deletes their profile picture.
-
-= 1.0.0 =
-Initial release.
